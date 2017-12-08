@@ -14,6 +14,9 @@ return [
     ],  
     'language' => 'en-US',
     'components' => [
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
         'db' => $db,
         'mailer' => [
             'useFileTransport' => true,
