@@ -32,6 +32,18 @@ $config = [
             'migrationTable' => '{{%migration_rbac}}',
             'migrationPath' => ['@app/migrations/rbac'],
         ],
+        'migrate' => [
+            'class' => 'yii\console\controllers\MigrateController',
+            'useTablePrefix' => true,
+            'templateFile' => '@app/views/migration.php',
+            'generatorTemplateFiles' => [
+                'create_table' => '@app/views/createTableMigration.php',
+                'drop_table' => '@app/views/dropTableMigration.php',
+                'add_column' => '@app/views/addColumnMigration.php',
+                'drop_column' => '@app/views/dropColumnMigration.php',
+                'create_junction' => '@app/views/createTableMigration.php',
+            ],
+        ],
         'fixture' => [ // Fixture generation command line.
             'class' => 'yii\faker\FixtureController',
         ],
