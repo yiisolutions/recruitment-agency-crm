@@ -19,7 +19,7 @@ class CurrencySearch extends Currency
     {
         return [
             [['id', 'created_at', 'updated_at'], 'integer'],
-            [['title', 'description', 'iso4217'], 'safe'],
+            [['title', 'iso4217'], 'safe'],
         ];
     }
 
@@ -65,7 +65,6 @@ class CurrencySearch extends Currency
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'iso4217', $this->iso4217]);
 
         return $dataProvider;

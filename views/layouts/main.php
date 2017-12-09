@@ -37,10 +37,12 @@ AppAsset::register($this);
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
+        'activateParents' => true,
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
+            ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
+            ['label' => Yii::t('app', 'Gii'), 'url' => ['/gii/default/index']],
+            ['label' => Yii::t('app', 'Skills'), 'url' => ['/skill/index']],
+            ['label' => Yii::t('app', 'Currencies'), 'url' => ['/currency/index']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
