@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%employer}}".
@@ -32,10 +33,24 @@ class Employer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'created_at', 'updated_at'], 'required'],
-            [['description'], 'string'],
-            [['created_at', 'updated_at'], 'integer'],
-            [['title', 'site_url'], 'string', 'max' => 255],
+            ['title', 'required'],
+            ['title', 'string', 'max' => 255],
+
+            ['description', 'string'],
+
+            ['site_url', 'url'],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+            ],
         ];
     }
 
