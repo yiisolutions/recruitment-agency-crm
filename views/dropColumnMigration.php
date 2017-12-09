@@ -45,7 +45,7 @@ class <?= $className ?> extends Migration
      */
     public function safeDown()
     {
-<?= $this->render('_addColumns', [
+<?= $this->render('@yii/views/_addColumns', [
     'table' => $table,
     'fields' => $fields,
     'foreignKeys' => $foreignKeys,

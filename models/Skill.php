@@ -9,7 +9,6 @@ use Yii;
  *
  * @property integer $id
  * @property string $title
- * @property string $description
  * @property integer $created_at
  * @property integer $updated_at
  *
@@ -35,7 +34,6 @@ class Skill extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'created_at', 'updated_at'], 'required'],
-            [['description'], 'string'],
             [['created_at', 'updated_at'], 'integer'],
             [['title'], 'string', 'max' => 255],
         ];
@@ -49,7 +47,6 @@ class Skill extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'title' => Yii::t('app', 'Title'),
-            'description' => Yii::t('app', 'Description'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
