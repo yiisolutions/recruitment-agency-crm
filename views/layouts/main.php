@@ -41,15 +41,25 @@ AppAsset::register($this);
         'items' => [
             ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
             ['label' => Yii::t('app', 'Gii'), 'url' => ['/gii/default/index']],
-            ['label' => Yii::t('app', 'Users'), 'url' => ['/user/index']],
-            ['label' => Yii::t('app', 'Employers'), 'url' => ['/employer/index']],
-            ['label' => Yii::t('app', 'Applicants'), 'url' => ['/applicant/index']],
-            ['label' => Yii::t('app', 'Vacancies'), 'url' => ['/vacancy/index']],
-            ['label' => Yii::t('app', 'Resumes'), 'url' => ['/resume/index']],
-            ['label' => Yii::t('app', 'Locations'), 'url' => ['/location/index']],
-            ['label' => Yii::t('app', 'Scopes'), 'url' => ['/scope/index']],
-            ['label' => Yii::t('app', 'Skills'), 'url' => ['/skill/index']],
-            ['label' => Yii::t('app', 'Currencies'), 'url' => ['/currency/index']],
+            ['label' => Yii::t('app', 'Content'), 'items' => [
+                ['label' => Yii::t('app', 'Users'), 'url' => ['/user/index']],
+                ['label' => Yii::t('app', 'Employers'), 'url' => ['/employer/index']],
+                ['label' => Yii::t('app', 'Applicants'), 'url' => ['/applicant/index']],
+                ['label' => Yii::t('app', 'Vacancies'), 'url' => ['/vacancy/index']],
+                ['label' => Yii::t('app', 'Resumes'), 'url' => ['/resume/index']],
+                ['label' => Yii::t('app', 'Locations'), 'url' => ['/location/index']],
+                ['label' => Yii::t('app', 'Scopes'), 'url' => ['/scope/index']],
+                ['label' => Yii::t('app', 'Skills'), 'url' => ['/skill/index']],
+                ['label' => Yii::t('app', 'Currencies'), 'url' => ['/currency/index']],
+            ]],
+            '<li>'
+            . Html::beginForm(['/site/language'], 'post')
+            . Html::dropDownList('language', Yii::$app->language ?: null, [
+                'ru' => Yii::t('app', 'Russian'),
+                'en' => Yii::t('app', 'English'),
+            ], ['class' => 'form-control lang-selector', 'onchange' => 'this.form.submit()'])
+            . Html::endForm()
+            . '</li>',
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (

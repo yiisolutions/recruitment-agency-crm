@@ -15,6 +15,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $auth_key
  * @property string $password_hash
  * @property string $email
+ * @property string $language
  * @property integer $created_at
  * @property integer $updated_at
  */
@@ -50,6 +51,8 @@ class User extends \yii\db\ActiveRecord
             ['email', 'string', 'max' => 255],
             ['email', 'email'],
             ['email', 'unique'],
+
+            ['language', 'string', 'max' => 255],
 
             ['password', 'required', 'on' => 'create'],
             ['password', 'string'],
@@ -101,7 +104,9 @@ class User extends \yii\db\ActiveRecord
             'username' => Yii::t('app', 'Username'),
             'auth_key' => Yii::t('app', 'Auth Key'),
             'password_hash' => Yii::t('app', 'Password Hash'),
+            'password' => Yii::t('app', 'Password'),
             'email' => Yii::t('app', 'Email'),
+            'language' => Yii::t('app', 'Language'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
