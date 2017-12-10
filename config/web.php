@@ -33,6 +33,7 @@ $config = [
         ],
         'user' => [
             'identityClass' => 'app\models\User',
+            'loginUrl' => ['/account/login'],
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
