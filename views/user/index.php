@@ -16,7 +16,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create User'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+
+        $user = Yii::$app->getUser();
+
+        if (Yii::$app->user->can('user_create')) {
+            echo Html::a(Yii::t('app', 'Create User'), ['create'], ['class' => 'btn btn-success']);
+        }
+
+        ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -30,7 +38,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'created_at:datetime',
             'updated_at:datetime',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'visibleButtons' => [
+                    'view' => $user->can('user_read'),
+                    'update' => $user->can('user_update'),
+                    'delete' => $user->can('user_delete'),
+                ],
+            ],
         ],
     ]); ?>
 </div>

@@ -15,14 +15,25 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
+        <?php
+
+        $user = Yii::$app->getUser();
+
+        if ($user->can('vacancy_update')) {
+            echo Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);
+        }
+
+        if ($user->can('vacancy_delete')) {
+            echo Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
+                'class' => 'btn btn-danger',
+                'data' => [
+                    'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                    'method' => 'post',
+                ],
+            ]);
+        }
+
+        ?>
     </p>
 
     <?= DetailView::widget([
@@ -35,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'salary_from',
             'salary_to',
             'salary_amount',
-            'salary_currency_id',
+            'salary_vacancy_id',
             'location_id',
         ],
     ]) ?>

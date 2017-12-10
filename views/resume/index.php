@@ -16,7 +16,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Resume'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+
+        $user = Yii::$app->getUser();
+
+        if ($user->can('resume_create')) {
+            echo Html::a(Yii::t('app', 'Create resume'), ['create'], ['class' => 'btn btn-success']);
+        }
+
+        ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -30,11 +38,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'salary_from',
             'salary_to',
             // 'salary_amount',
-            // 'salary_currency_id',
+            // 'salary_resume_id',
             // 'location_id',
             // 'applicant_id',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'visibleButtons' => [
+                    'view' => $user->can('resume_read'),
+                    'update' => $user->can('resume_update'),
+                    'delete' => $user->can('resume_delete'),
+                ],
+            ],
         ],
     ]); ?>
 </div>

@@ -44,14 +44,14 @@ AppAsset::register($this);
             ['label' => Yii::t('app', 'Gii'), 'url' => ['/gii/default/index']],
             ['label' => Yii::t('app', 'Content'), 'items' => [
                 ['label' => Yii::t('app', 'Users'), 'url' => ['/user/index'], 'visible' => $user->can('user_read')],
-                ['label' => Yii::t('app', 'Employers'), 'url' => ['/employer/index']],
-                ['label' => Yii::t('app', 'Applicants'), 'url' => ['/applicant/index']],
-                ['label' => Yii::t('app', 'Vacancies'), 'url' => ['/vacancy/index']],
-                ['label' => Yii::t('app', 'Resumes'), 'url' => ['/resume/index']],
-                ['label' => Yii::t('app', 'Locations'), 'url' => ['/location/index']],
-                ['label' => Yii::t('app', 'Scopes'), 'url' => ['/scope/index']],
-                ['label' => Yii::t('app', 'Skills'), 'url' => ['/skill/index']],
-                ['label' => Yii::t('app', 'Currencies'), 'url' => ['/currency/index']],
+                ['label' => Yii::t('app', 'Employers'), 'url' => ['/employer/index'], 'visible' => $user->can('employer_read')],
+                ['label' => Yii::t('app', 'Applicants'), 'url' => ['/applicant/index'], 'visible' => $user->can('applicant_read')],
+                ['label' => Yii::t('app', 'Vacancies'), 'url' => ['/vacancy/index'], 'visible' => $user->can('vacancy_read')],
+                ['label' => Yii::t('app', 'Resumes'), 'url' => ['/resume/index'], 'visible' => $user->can('resume_read')],
+                ['label' => Yii::t('app', 'Locations'), 'url' => ['/location/index'], 'visible' => $user->can('location_read')],
+                ['label' => Yii::t('app', 'Scopes'), 'url' => ['/scope/index'], 'visible' => $user->can('scope_read')],
+                ['label' => Yii::t('app', 'Skills'), 'url' => ['/skill/index'], 'visible' => $user->can('skill_read')],
+                ['label' => Yii::t('app', 'Currencies'), 'url' => ['/currency/index'], 'visible' => $user->can('currency_read')],
             ]],
             '<li>'
             . Html::beginForm(['/site/language'], 'post')
