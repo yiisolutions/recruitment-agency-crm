@@ -10,6 +10,7 @@ $config = [
         'log',
         'languageSelector',
     ],
+    'defaultRoute' => 'dashboard',
     'language' => 'en',
     'sourceLanguage' => 'en',
     'aliases' => [

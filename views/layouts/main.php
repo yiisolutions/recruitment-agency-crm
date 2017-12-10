@@ -40,8 +40,8 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'activateParents' => true,
         'items' => [
-            ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
-            ['label' => Yii::t('app', 'Gii'), 'url' => ['/gii/default/index']],
+            ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index'], 'visible' => $user->can('dashboard_read')],
+            ['label' => Yii::t('app', 'Gii'), 'url' => ['/gii/default/index'], 'visible' => YII_DEBUG],
             ['label' => Yii::t('app', 'Content'), 'items' => [
                 ['label' => Yii::t('app', 'Users'), 'url' => ['/user/index'], 'visible' => $user->can('user_read')],
                 ['label' => Yii::t('app', 'Employers'), 'url' => ['/employer/index'], 'visible' => $user->can('employer_read')],
@@ -52,7 +52,7 @@ AppAsset::register($this);
                 ['label' => Yii::t('app', 'Scopes'), 'url' => ['/scope/index'], 'visible' => $user->can('scope_read')],
                 ['label' => Yii::t('app', 'Skills'), 'url' => ['/skill/index'], 'visible' => $user->can('skill_read')],
                 ['label' => Yii::t('app', 'Currencies'), 'url' => ['/currency/index'], 'visible' => $user->can('currency_read')],
-            ]],
+            ], 'visible' => !$user->isGuest],
             '<li>'
             . Html::beginForm(['/site/language'], 'post')
             . Html::dropDownList('language', Yii::$app->language ?: null, [
