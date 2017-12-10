@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%applicant}}".
@@ -34,10 +35,30 @@ class Applicant extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['first_name', 'last_name', 'created_at', 'updated_at'], 'required'],
-            [['age', 'created_at', 'updated_at'], 'integer'],
-            [['first_name', 'last_name', 'email'], 'string', 'max' => 255],
-            [['phone'], 'string', 'max' => 32],
+            ['first_name', 'required'],
+            ['first_name', 'string', 'max' => 255],
+
+            ['last_name', 'required'],
+            ['last_name', 'string', 'max' => 255],
+
+            ['age', 'integer'],
+
+            ['email', 'string'],
+            ['email', 'email'],
+
+            ['phone', 'string', 'max' => 32],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+            ],
         ];
     }
 
@@ -64,5 +85,13 @@ class Applicant extends \yii\db\ActiveRecord
     public function getResumes()
     {
         return $this->hasMany(Resume::className(), ['applicant_id' => 'id']);
+    }
+
+    public function __toString()
+    {
+        return implode(' ', [
+            $this->first_name,
+            $this->last_name,
+        ]);
     }
 }
