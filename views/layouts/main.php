@@ -3,12 +3,16 @@
 /**
  * @var string $content
  * @var \yii\web\View $this
+ * @var \app\models\User $userModel
  */
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yiister\gentelella\widgets\Menu;
 
 $bundle = yiister\gentelella\assets\Asset::register($this);
+$user = Yii::$app->getUser();
+$userModel = $user->getIdentity();
 
 ?>
 <?php $this->beginPage(); ?>
@@ -38,7 +42,7 @@ $bundle = yiister\gentelella\assets\Asset::register($this);
             <div class="left_col scroll-view">
 
                 <div class="navbar nav_title" style="border: 0;">
-                    <a href="/" class="site_title"><i class="fa fa-paw"></i> <span>Gentellela Alela!</span></a>
+                    <a href="/" class="site_title"><i class="fa fa-briefcase"></i> <span><?= Yii::$app->name ?></span></a>
                 </div>
                 <div class="clearfix"></div>
 
@@ -58,80 +62,127 @@ $bundle = yiister\gentelella\assets\Asset::register($this);
 
                 <!-- sidebar menu -->
                 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-
                     <div class="menu_section">
                         <h3>General</h3>
-                        <?=
-                        \yiister\gentelella\widgets\Menu::widget(
-                            [
-                                "items" => [
-                                    ["label" => "Home", "url" => "/", "icon" => "home"],
-                                    ["label" => "Layout", "url" => ["site/layout"], "icon" => "files-o"],
-                                    ["label" => "Error page", "url" => ["site/error-page"], "icon" => "close"],
-                                    [
-                                        "label" => "Widgets",
-                                        "icon" => "th",
-                                        "url" => "#",
-                                        "items" => [
-                                            ["label" => "Menu", "url" => ["site/menu"]],
-                                            ["label" => "Panel", "url" => ["site/panel"]],
+                        <?= Menu::widget([
+                            'items' => [
+                                [
+                                    'label' => Yii::t('app', 'Dashboard'),
+                                    'url' => ['/dashboard/index'],
+                                    'icon' => 'dashboard',
+                                ],
+                                [
+                                    'label' => Yii::t('app', 'Customers'),
+                                    'url' => '#',
+                                    'icon' => 'square',
+                                    'items' => [
+                                        [
+                                            'label' => Yii::t('app', 'Employers'),
+                                            'url' => ['/employer/index'],
+                                            'icon' => 'square-o',
+                                            'visible' => $user->can('employer_read'),
                                         ],
-                                    ],
-                                    [
-                                        "label" => "Badges",
-                                        "url" => "#",
-                                        "icon" => "table",
-                                        "items" => [
-                                            [
-                                                "label" => "Default",
-                                                "url" => "#",
-                                                "badge" => "123",
-                                            ],
-                                            [
-                                                "label" => "Success",
-                                                "url" => "#",
-                                                "badge" => "new",
-                                                "badgeOptions" => ["class" => "label-success"],
-                                            ],
-                                            [
-                                                "label" => "Danger",
-                                                "url" => "#",
-                                                "badge" => "!",
-                                                "badgeOptions" => ["class" => "label-danger"],
-                                            ],
-                                        ],
-                                    ],
-                                    [
-                                        "label" => "Multilevel",
-                                        "url" => "#",
-                                        "icon" => "table",
-                                        "items" => [
-                                            [
-                                                "label" => "Second level 1",
-                                                "url" => "#",
-                                            ],
-                                            [
-                                                "label" => "Second level 2",
-                                                "url" => "#",
-                                                "items" => [
-                                                    [
-                                                        "label" => "Third level 1",
-                                                        "url" => "#",
-                                                    ],
-                                                    [
-                                                        "label" => "Third level 2",
-                                                        "url" => "#",
-                                                    ],
-                                                ],
-                                            ],
+                                        [
+                                            'label' => Yii::t('app', 'Applicants'),
+                                            'url' => ['/applicant/index'],
+                                            'icon' => 'square-o',
+                                            'visible' => $user->can('applicant_read'),
                                         ],
                                     ],
                                 ],
-                            ]
-                        )
-                        ?>
+                                [
+                                    'label' => Yii::t('app', 'Content'),
+                                    'url' => '#',
+                                    'icon' => 'square',
+                                    'items' => [
+                                        [
+                                            'label' => Yii::t('app', 'Vacancies'),
+                                            'url' => ['/vacancy/index'],
+                                            'icon' => 'square-o',
+                                            'visible' => $user->can('vacancy_read'),
+                                        ],
+                                        [
+                                            'label' => Yii::t('app', 'Resumes'),
+                                            'url' => ['/resume/index'],
+                                            'icon' => 'square-o',
+                                            'visible' => $user->can('resume_read'),
+                                        ],
+                                    ],
+                                ],
+                                [
+                                    'label' => Yii::t('app', 'References'),
+                                    'url' => '#',
+                                    'icon' => 'square',
+                                    'items' => [
+                                        [
+                                            'label' => Yii::t('app', 'Currencies'),
+                                            'url' => ['/currency/index'],
+                                            'icon' => 'square-o',
+                                            'visible' => $user->can('currency_read'),
+                                        ],
+                                        [
+                                            'label' => Yii::t('app', 'Locations'),
+                                            'url' => ['/location/index'],
+                                            'icon' => 'square-o',
+                                            'visible' => $user->can('location_read'),
+                                        ],
+                                        [
+                                            'label' => Yii::t('app', 'Scopes'),
+                                            'url' => ['/scope/index'],
+                                            'icon' => 'square-o',
+                                            'visible' => $user->can('scope_read'),
+                                        ],
+                                        [
+                                            'label' => Yii::t('app', 'Skills'),
+                                            'url' => ['/skill/index'],
+                                            'icon' => 'square-o',
+                                            'visible' => $user->can('skill_read'),
+                                        ],
+                                    ],
+                                ],
+                                [
+                                    'label' => Yii::t('app', 'Administration'),
+                                    'url' => '#',
+                                    'icon' => 'square',
+                                    'items' => [
+                                        [
+                                            'label' => Yii::t('app', 'Users'),
+                                            'url' => ['/user/index'],
+                                            'icon' => 'square-o',
+                                            'visible' => $user->can('user_read'),
+                                        ],
+                                    ],
+                                ],
+                                [
+                                    'label' => Yii::t('app', 'Development'),
+                                    'url' => '#',
+                                    'icon' => 'code',
+                                    'visible' => YII_ENV_DEV,
+                                    'items' => [
+                                        [
+                                            'label' => Yii::t('app', 'Gii'),
+                                            'url' => ['/gii/default/index'],
+                                            'icon' => 'square-o',
+                                        ],
+                                        [
+                                            'label' => Yii::t('app', 'Debug'),
+                                            'url' => ['/debug/default/index'],
+                                            'icon' => 'square-o',
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ]) ?>
                     </div>
-
+                    <div class="menu_section">
+                        <h3>Language</h3>
+                        <?= Html::beginForm(['/site/language'], 'post') ?>
+                        <?= Html::dropDownList('language', Yii::$app->language, [
+                            'en' => Yii::t('app', 'English'),
+                            'ru' => Yii::t('app', 'Russian'),
+                        ], ['class' => 'form-control', 'onchange' => 'this.form.submit()']) ?>
+                        <?= Html::endForm() ?>
+                    </div>
                 </div>
                 <!-- /sidebar menu -->
 
@@ -146,7 +197,7 @@ $bundle = yiister\gentelella\assets\Asset::register($this);
                     <a data-toggle="tooltip" data-placement="top" title="Lock">
                         <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
                     </a>
-                    <a data-toggle="tooltip" data-placement="top" title="Logout">
+                    <a data-toggle="tooltip" data-placement="top" title="Logout" href="<?= Url::to(['/account/logout']) ?>">
                         <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                     </a>
                 </div>
