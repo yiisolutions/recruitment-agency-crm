@@ -35,6 +35,7 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+    $user = Yii::$app->getUser();
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'activateParents' => true,
@@ -42,7 +43,7 @@ AppAsset::register($this);
             ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
             ['label' => Yii::t('app', 'Gii'), 'url' => ['/gii/default/index']],
             ['label' => Yii::t('app', 'Content'), 'items' => [
-                ['label' => Yii::t('app', 'Users'), 'url' => ['/user/index']],
+                ['label' => Yii::t('app', 'Users'), 'url' => ['/user/index'], 'visible' => $user->can('user_read')],
                 ['label' => Yii::t('app', 'Employers'), 'url' => ['/employer/index']],
                 ['label' => Yii::t('app', 'Applicants'), 'url' => ['/applicant/index']],
                 ['label' => Yii::t('app', 'Vacancies'), 'url' => ['/vacancy/index']],

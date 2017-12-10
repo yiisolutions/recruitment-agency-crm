@@ -1,28 +1,12 @@
 <?php
 
-use yii\base\InvalidConfigException;
-use yii\db\Migration;
-use yii\rbac\DbManager;
+use app\components\rbac\Migration;
 
 /**
  * Class m171208_165613_init
  */
 class m171208_165613_init extends Migration
 {
-    /**
-     * @throws yii\base\InvalidConfigException
-     * @return DbManager
-     */
-    protected function getAuthManager()
-    {
-        $authManager = Yii::$app->getAuthManager();
-        if (!$authManager instanceof DbManager) {
-            throw new InvalidConfigException('You should configure "authManager" component to use database before executing this migration.');
-        }
-
-        return $authManager;
-    }
-
     /**
      * @inheritdoc
      */

@@ -31,6 +31,7 @@ $config = [
             'class' => 'yii\console\controllers\MigrateController',
             'migrationTable' => '{{%migration_rbac}}',
             'migrationPath' => ['@app/migrations/rbac'],
+            'templateFile' => '@app/views/migration-rbac.php',
         ],
         'migrate' => [
             'class' => 'yii\console\controllers\MigrateController',
