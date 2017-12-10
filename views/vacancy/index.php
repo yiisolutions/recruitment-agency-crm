@@ -1,55 +1,53 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use yiister\gentelella\widgets\grid\GridView;
+use yiister\gentelella\widgets\Panel;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\VacancySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+$user = Yii::$app->getUser();
+
 $this->title = Yii::t('app', 'Vacancies');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="vacancy-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<?php Panel::begin([
+    'header' => $this->title,
+    'collapsable' => true,
+    'tools' => [
+        ['label' => '<i class="fa fa-plus text-success"></i>', 'encode' => false, 'url' => ['/vacancy/create'], 'visible' => $user->can('vacancy_create')],
+    ],
+]) ?>
 
-    <p>
-        <?php
+<?= GridView::widget([
+    'bordered' => false,
+    'hover' => true,
+    'dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
+    'columns' => [
 
-        $user = Yii::$app->getUser();
+        'id',
+        'title',
+        'description:ntext',
+        'employer_id',
+        'salary_from',
+        'salary_to',
+        'salary_amount',
+        'salary_currency_id',
+        'location_id',
 
-        if ($user->can('vacancy_create')) {
-            echo Html::a(Yii::t('app', 'Create vacancy'), ['create'], ['class' => 'btn btn-success']);
-        }
-
-        ?>
-    </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'title',
-            'description:ntext',
-            'employer_id',
-            'salary_from',
-            // 'salary_to',
-            // 'salary_amount',
-            // 'salary_vacancy_id',
-            // 'location_id',
-
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'visibleButtons' => [
-                    'view' => $user->can('vacancy_read'),
-                    'update' => $user->can('vacancy_update'),
-                    'delete' => $user->can('vacancy_delete'),
-                ],
+        [
+            'class' => 'yii\grid\ActionColumn',
+            'header' => Yii::t('app', 'Actions'),
+            'visibleButtons' => [
+                'view' => $user->can('vacancy_read'),
+                'update' => $user->can('vacancy_update'),
+                'delete' => $user->can('vacancy_delete'),
             ],
         ],
-    ]); ?>
-</div>
+    ],
+]); ?>
+
+<?php Panel::end() ?>
