@@ -47,6 +47,22 @@ class UserSearch extends User
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'attributes' => [
+                    'id',
+                    'first_name',
+                    'last_name',
+                    'role' => [
+                        // TODO: sort by role name
+                        'asc' => '',
+                        'desc' => '',
+                    ],
+                    'username',
+                    'email',
+                    'created_at',
+                    'updated_at',
+                ],
+            ],
         ]);
 
         $this->load($params);

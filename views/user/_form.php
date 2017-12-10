@@ -16,6 +16,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'role')->radioList([
+        'manager' => Yii::t('app', 'Manager'),
+        'admin' => Yii::t('app', 'Admin'),
+    ]) ?>
+
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'password')->passwordInput() ?>

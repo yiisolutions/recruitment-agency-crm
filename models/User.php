@@ -3,9 +3,11 @@
 namespace app\models;
 
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\rbac\DbManager;
 use yii\web\IdentityInterface;
 
 /**
@@ -25,6 +27,7 @@ use yii\web\IdentityInterface;
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
     public $password;
+    public $role;
 
     /**
      * @inheritdoc
@@ -59,6 +62,10 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
 
             ['password', 'required', 'on' => 'create'],
             ['password', 'string'],
+
+            ['role', 'required'],
+            ['role', 'string'],
+            ['role', 'exist', 'targetClass' => AuthItem::className(), 'targetAttribute' => 'name', 'filter' => ['type' => AuthItem::TYPE_ROLE]],
         ];
     }
 
@@ -72,6 +79,21 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
                 'class' => TimestampBehavior::className(),
             ],
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterFind()
+    {
+        parent::afterFind();
+
+        $am = $this->getAuthManager();
+
+        $roles = $am->getRolesByUser($this->id);
+        if (!empty($roles)) {
+            $this->role = reset($roles)->name;
+        }
     }
 
     /**
@@ -98,6 +120,19 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        $am = $this->getAuthManager();
+        $role = $am->getRole($this->role);
+        $am->revokeAll($this->id);
+        $am->assign($role, $this->id);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
@@ -108,6 +143,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'auth_key' => Yii::t('app', 'Auth Key'),
             'password_hash' => Yii::t('app', 'Password Hash'),
             'password' => Yii::t('app', 'Password'),
+            'role' => Yii::t('app', 'Role'),
             'email' => Yii::t('app', 'Email'),
             'language' => Yii::t('app', 'Language'),
             'created_at' => Yii::t('app', 'Created At'),
@@ -121,6 +157,20 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             $this->first_name,
             $this->last_name,
         ]);
+    }
+
+    /**
+     * @throws InvalidConfigException
+     * @return DbManager
+     */
+    protected function getAuthManager()
+    {
+        $authManager = Yii::$app->getAuthManager();
+        if (!$authManager instanceof DbManager) {
+            throw new InvalidConfigException('You should configure "authManager" component to use database before executing this migration.');
+        }
+
+        return $authManager;
     }
 
     /**
