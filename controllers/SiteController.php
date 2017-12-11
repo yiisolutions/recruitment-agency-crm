@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Language;
 use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
@@ -51,20 +52,21 @@ class SiteController extends Controller
         $user = Yii::$app->user;
         $response = Yii::$app->getResponse();
         $request = Yii::$app->getRequest();
-        $language = isset($request->bodyParams['language']) ? $request->bodyParams['language'] : null;
+        $languageID = isset($request->bodyParams['language_id']) ? $request->bodyParams['language_id'] : null;
+        $language = Language::findOne($languageID);
 
         if ($language) {
             $cookie = new Cookie();
             $cookie->name = 'language';
-            $cookie->value = $language;
+            $cookie->value = $language->code;
             $response->cookies->add($cookie);
 
             if (!$user->isGuest) {
                 /** @var User $userModel */
                 $userModel = $user->getIdentity();
-                $userModel->language = $language;
+                $userModel->language_id = $language->id;
 
-                if (!$userModel->save(false, ['language'])) {
+                if (!$userModel->save(false, ['language_id'])) {
                     Yii::warning('Save user language error');
                 }
             }

@@ -6,8 +6,10 @@
  * @var \app\models\User $userModel
  */
 
+use app\models\Language;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\web\JsExpression;
 use yiister\gentelella\widgets\Menu;
 
 $bundle = yiister\gentelella\assets\Asset::register($this);
@@ -185,7 +187,7 @@ $userModel = $user->getIdentity();
                         <?php
                         echo Html::beginForm(['/site/language'], 'post');
 
-                        $languages = \app\models\Language::find()
+                        $languages = Language::find()
                             ->select('title, code')
                             ->orderBy('title')
                             ->asArray()
@@ -196,7 +198,29 @@ $userModel = $user->getIdentity();
                             $languages[$i] = Yii::t('app', $language);
                         }
 
-                        echo Html::dropDownList('language', Yii::$app->language, $languages, ['class' => 'form-control', 'onchange' => 'this.form.submit()']);
+                        $currentLanguage = Language::findOne(['code' => Yii::$app->language]);
+
+                        echo \kartik\select2\Select2::widget([
+                            'name' => 'language_id',
+                            'value' => $currentLanguage ? $currentLanguage->id : null,
+                            'initValueText' => $currentLanguage ? $currentLanguage->title : '',
+                            'options' => ['onchange' => 'this.form.submit()'],
+                            'pluginOptions' => [
+                                'allowClear' => false,
+                                'language' => [
+                                    'errorLoading' => new JsExpression("function () { return 'Waiting for results...'; }"),
+                                ],
+                                'ajax' => [
+                                    'url' => Url::to(['/select2/language']),
+                                    'dataType' => 'json',
+                                    'data' => new JsExpression('function(params) { return {query: params.term}; }')
+                                ],
+                                'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                                'templateResult' => new JsExpression('function(entity) { return entity.text; }'),
+                                'templateSelection' => new JsExpression('function (entity) { return entity.text; }'),
+                            ],
+                        ]);
+//                        echo Html::dropDownList('language', Yii::$app->language, $languages, ['class' => 'form-control', 'onchange' => 'this.form.submit()']);
                         echo Html::endForm();
                         ?>
                     </div>

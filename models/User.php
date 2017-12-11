@@ -20,9 +20,11 @@ use yii\web\IdentityInterface;
  * @property string $auth_key
  * @property string $password_hash
  * @property string $email
- * @property string $language
+ * @property integer $language_id
  * @property integer $created_at
  * @property integer $updated_at
+ *
+ * @property Language $language
  */
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
@@ -58,7 +60,14 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             ['email', 'email'],
             ['email', 'unique'],
 
-            ['language', 'string', 'max' => 255],
+            ['language_id', 'integer'],
+            [
+                'language_id',
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Language::className(),
+                'targetAttribute' => ['language_id' => 'id'],
+            ],
 
             ['password', 'required', 'on' => 'create'],
             ['password', 'string'],
@@ -145,7 +154,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'password' => Yii::t('app', 'Password'),
             'role' => Yii::t('app', 'Role'),
             'email' => Yii::t('app', 'Email'),
-            'language' => Yii::t('app', 'Language'),
+            'language_id' => Yii::t('app', 'Language'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
@@ -236,5 +245,13 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function validatePassword($password)
     {
         return Yii::$app->security->validatePassword($password, $this->password_hash);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLanguage()
+    {
+        return $this->hasOne(Language::className(), ['id' => 'language_id']);
     }
 }

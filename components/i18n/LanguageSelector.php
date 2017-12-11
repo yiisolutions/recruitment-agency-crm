@@ -55,6 +55,6 @@ class LanguageSelector extends Component implements BootstrapInterface
             return false;
         }
 
-        return $user->language;
+        return $user->language->code;
     }
 }
