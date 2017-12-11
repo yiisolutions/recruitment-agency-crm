@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%vacancy}}".
@@ -16,6 +17,8 @@ use Yii;
  * @property string $salary_amount
  * @property integer $salary_currency_id
  * @property integer $location_id
+ * @property integer $created_at
+ * @property integer $updated_at
  *
  * @property Employer $employer
  * @property Location $location
@@ -55,6 +58,18 @@ class Vacancy extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+            ],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
@@ -67,6 +82,8 @@ class Vacancy extends \yii\db\ActiveRecord
             'salary_amount' => Yii::t('app', 'Salary Amount'),
             'salary_currency_id' => Yii::t('app', 'Salary Currency ID'),
             'location_id' => Yii::t('app', 'Location ID'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
 
