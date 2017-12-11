@@ -138,6 +138,12 @@ $userModel = $user->getIdentity();
                                             'icon' => 'square-o',
                                             'visible' => $user->can('skill_read'),
                                         ],
+                                        [
+                                            'label' => Yii::t('app', 'Languages'),
+                                            'url' => ['/language/index'],
+                                            'icon' => 'square-o',
+                                            'visible' => $user->can('language_read'),
+                                        ],
                                     ],
                                 ],
                                 [
@@ -176,12 +182,23 @@ $userModel = $user->getIdentity();
                     </div>
                     <div class="menu_section">
                         <h3><?= Yii::t('app', 'Language') ?></h3>
-                        <?= Html::beginForm(['/site/language'], 'post') ?>
-                        <?= Html::dropDownList('language', Yii::$app->language, [
-                            'en' => Yii::t('app', 'English'),
-                            'ru' => Yii::t('app', 'Russian'),
-                        ], ['class' => 'form-control', 'onchange' => 'this.form.submit()']) ?>
-                        <?= Html::endForm() ?>
+                        <?php
+                        echo Html::beginForm(['/site/language'], 'post');
+
+                        $languages = \app\models\Language::find()
+                            ->select('title, code')
+                            ->orderBy('title')
+                            ->asArray()
+                            ->indexBy('code')
+                            ->column();
+
+                        foreach ($languages as $i => $language) {
+                            $languages[$i] = Yii::t('app', $language);
+                        }
+
+                        echo Html::dropDownList('language', Yii::$app->language, $languages, ['class' => 'form-control', 'onchange' => 'this.form.submit()']);
+                        echo Html::endForm();
+                        ?>
                     </div>
                 </div>
                 <!-- /sidebar menu -->
