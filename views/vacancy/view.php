@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'salary_from',
             'salary_to',
             'salary_amount',
-            'salary_vacancy_id',
+            'salary_currency_id',
             'location_id',
         ],
     ]) ?>
