@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%location}}".
@@ -35,10 +36,32 @@ class Location extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'created_at', 'updated_at'], 'required'],
-            [['level', 'parent_id', 'created_at', 'updated_at'], 'integer'],
-            [['title'], 'string', 'max' => 255],
-            [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => Location::className(), 'targetAttribute' => ['parent_id' => 'id']],
+            ['title', 'required'],
+            ['title', 'string', 'max' => 255],
+
+            ['level', 'required'],
+            ['level', 'integer'],
+
+            ['parent_id', 'integer'],
+            [
+                'parent_id',
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Location::className(),
+                'targetAttribute' => ['parent_id' => 'id'],
+            ],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+            ],
         ];
     }
 
