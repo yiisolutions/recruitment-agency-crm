@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Currency;
 use app\models\Employer;
+use app\models\Language;
 use app\models\Location;
 use yii\db\ActiveRecord;
 use yii\rest\Controller;
@@ -37,6 +38,18 @@ class Select2Controller extends Controller
     public function actionEmployer($query = null, $id = null)
     {
         return $this->getList(Employer::className(), $query, $id);
+    }
+
+    /**
+     * Return languages list for select2 widgets.
+     *
+     * @param null $query
+     * @param null $id
+     * @return array
+     */
+    public function actionLanguage($query = null, $id = null)
+    {
+        return $this->getList(Language::className(), $query, $id);
     }
 
     /**
