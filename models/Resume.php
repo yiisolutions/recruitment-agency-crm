@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%resume}}".
@@ -16,6 +17,9 @@ use Yii;
  * @property integer $salary_currency_id
  * @property integer $location_id
  * @property integer $applicant_id
+ * @property integer $language_id
+ * @property integer $created_at
+ * @property integer $updated_at
  *
  * @property Applicant $applicant
  * @property Location $location
@@ -24,6 +28,7 @@ use Yii;
  * @property Scope[] $scopes
  * @property ResumeSkill[] $resumeSkills
  * @property Skill[] $skills
+ * @property Language $language
  */
 class Resume extends \yii\db\ActiveRecord
 {
@@ -55,6 +60,18 @@ class Resume extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+            ],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
@@ -66,6 +83,7 @@ class Resume extends \yii\db\ActiveRecord
             'salary_amount' => Yii::t('app', 'Salary Amount'),
             'salary_currency_id' => Yii::t('app', 'Salary Currency ID'),
             'location_id' => Yii::t('app', 'Location ID'),
+            'language_id' => Yii::t('app', 'Language ID'),
             'applicant_id' => Yii::t('app', 'Applicant ID'),
         ];
     }
@@ -84,6 +102,14 @@ class Resume extends \yii\db\ActiveRecord
     public function getLocation()
     {
         return $this->hasOne(Location::className(), ['id' => 'location_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLanguage()
+    {
+        return $this->hasOne(Language::className(), ['id' => 'language_id']);
     }
 
     /**

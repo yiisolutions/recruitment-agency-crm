@@ -17,6 +17,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $salary_amount
  * @property integer $salary_currency_id
  * @property integer $location_id
+ * @property integer $language_id
  * @property integer $created_at
  * @property integer $updated_at
  *
@@ -27,6 +28,7 @@ use yii\behaviors\TimestampBehavior;
  * @property Scope[] $scopes
  * @property VacancySkill[] $vacancySkills
  * @property Skill[] $skills
+ * @property Language $language
  */
 class Vacancy extends \yii\db\ActiveRecord
 {
@@ -82,6 +84,7 @@ class Vacancy extends \yii\db\ActiveRecord
             'salary_amount' => Yii::t('app', 'Salary Amount'),
             'salary_currency_id' => Yii::t('app', 'Salary Currency ID'),
             'location_id' => Yii::t('app', 'Location ID'),
+            'language_id' => Yii::t('app', 'Language ID'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
@@ -101,6 +104,14 @@ class Vacancy extends \yii\db\ActiveRecord
     public function getLocation()
     {
         return $this->hasOne(Location::className(), ['id' => 'location_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLanguage()
+    {
+        return $this->hasOne(Language::className(), ['id' => 'language_id']);
     }
 
     /**

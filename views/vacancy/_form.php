@@ -2,6 +2,7 @@
 
 use app\models\Currency;
 use app\models\Employer;
+use app\models\Language;
 use app\models\Location;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -62,6 +63,16 @@ $pluginOptions = [
         'pluginOptions' => ArrayHelper::merge($pluginOptions, [
             'ajax' => [
                 'url' => Url::to(['/select2/currency']),
+            ],
+        ])
+    ]) ?>
+
+    <?= $form->field($model, 'language_id')->widget(Select2::className(), [
+        'initValueText' => empty($model->language_id) ? '' : Language::findOne($model->language_id)->title,
+        'options' => ['placeholder' => $model->getAttributeLabel('language_id')],
+        'pluginOptions' => ArrayHelper::merge($pluginOptions, [
+            'ajax' => [
+                'url' => Url::to(['/select2/language']),
             ],
         ])
     ]) ?>
