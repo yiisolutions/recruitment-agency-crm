@@ -1,49 +1,28 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use app\widgets\GridViewPanel;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\SkillSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Skills');
-$this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="skill-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+echo GridViewPanel::widget([
+    'header' => $this->title,
+    'permissionNamesMap' => [
+        'view' => 'skill_read',
+        'create' => 'skill_create',
+        'update' => 'skill_update',
+        'delete' => 'skill_delete',
+    ],
+    'dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
+    'columns' => [
 
-    <p>
-        <?php
-
-        $user = Yii::$app->getUser();
-
-        if ($user->can('skill_create')) {
-            echo Html::a(Yii::t('app', 'Create skill'), ['create'], ['class' => 'btn btn-success']);
-        }
-
-        ?>
-    </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-
-            'id',
-            'title',
-            'created_at:datetime',
-            'updated_at:datetime',
-
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'visibleButtons' => [
-                    'view' => $user->can('skill_read'),
-                    'update' => $user->can('skill_update'),
-                    'delete' => $user->can('skill_delete'),
-                ],
-            ],
-        ],
-    ]); ?>
-</div>
+        'id',
+        'title',
+        'created_at:datetime',
+        'updated_at:datetime',
+    ],
+]);
