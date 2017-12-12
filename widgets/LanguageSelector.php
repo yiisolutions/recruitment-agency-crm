@@ -28,6 +28,7 @@ class LanguageSelector extends Widget
 
         $currentLanguage = $this->findCurrentLanguage();
 
+        echo Html::beginTag('div', ['class' => 'form-group', 'style' => 'padding:13px 15px 12px']);
         echo AjaxDropDownWidget::widget(ArrayHelper::merge([
             'name' => 'language_id',
             'value' => $currentLanguage ? $currentLanguage->id : null,
@@ -36,6 +37,7 @@ class LanguageSelector extends Widget
             'action' => 'language',
             'allowClear' => false,
         ], $this->ajaxDropDownOptions));
+        echo Html::endTag('div');
 
         echo Html::endForm();
     }
