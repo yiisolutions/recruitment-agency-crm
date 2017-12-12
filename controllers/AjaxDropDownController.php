@@ -6,6 +6,8 @@ use app\models\Currency;
 use app\models\Employer;
 use app\models\Language;
 use app\models\Location;
+use Yii;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\rest\Controller;
 
@@ -82,6 +84,8 @@ class AjaxDropDownController extends Controller
             $results = $this->getListEmpty($modelClass);
         }
 
+        $results = $this->translateText($results);
+
         return compact('results');
     }
 
@@ -138,5 +142,26 @@ class AjaxDropDownController extends Controller
             ->limit(20)
             ->orderBy('title')
             ->asArray();
+    }
+
+    /**
+     * Translate text.
+     *
+     * @param $results
+     * @return mixed
+     */
+    private function translateText($results)
+    {
+        if (isset($results['text'])) {
+            $results['text'] = Yii::t('app', $results['text']);
+        } elseif (!empty($results)) {
+            foreach ($results as $i => $result) {
+                if (isset($result['text'])) {
+                    $results[$i]['text'] = Yii::t('app', $result['text']);
+                }
+            }
+        }
+
+        return $results;
     }
 }
