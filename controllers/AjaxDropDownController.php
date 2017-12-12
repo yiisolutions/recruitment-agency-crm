@@ -10,11 +10,11 @@ use yii\db\ActiveRecord;
 use yii\rest\Controller;
 
 /**
- * Select2 Controller.
+ * Ajax Drop Down Controller.
  *
  * @package app\controllers
  */
-class Select2Controller extends Controller
+class AjaxDropDownController extends Controller
 {
     /**
      * Return currencies list for select2 widgets.

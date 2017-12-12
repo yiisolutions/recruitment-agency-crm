@@ -200,27 +200,14 @@ $userModel = $user->getIdentity();
 
                         $currentLanguage = Language::findOne(['code' => Yii::$app->language]);
 
-                        echo \kartik\select2\Select2::widget([
+                        echo \app\widgets\AjaxDropDownWidget::widget([
                             'name' => 'language_id',
                             'value' => $currentLanguage ? $currentLanguage->id : null,
                             'initValueText' => $currentLanguage ? $currentLanguage->title : '',
                             'options' => ['onchange' => 'this.form.submit()'],
-                            'pluginOptions' => [
-                                'allowClear' => false,
-                                'language' => [
-                                    'errorLoading' => new JsExpression("function () { return 'Waiting for results...'; }"),
-                                ],
-                                'ajax' => [
-                                    'url' => Url::to(['/select2/language']),
-                                    'dataType' => 'json',
-                                    'data' => new JsExpression('function(params) { return {query: params.term}; }')
-                                ],
-                                'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                                'templateResult' => new JsExpression('function(entity) { return entity.text; }'),
-                                'templateSelection' => new JsExpression('function (entity) { return entity.text; }'),
-                            ],
+                            'action' => 'language',
+                            'allowClear' => false,
                         ]);
-//                        echo Html::dropDownList('language', Yii::$app->language, $languages, ['class' => 'form-control', 'onchange' => 'this.form.submit()']);
                         echo Html::endForm();
                         ?>
                     </div>
