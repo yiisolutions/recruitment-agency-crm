@@ -25,7 +25,7 @@ class GridViewPanel extends Widget
     /**
      * @var bool
      */
-    public $collapsable = true;
+    public $collapsable = false;
 
     /**
      * @var array|string

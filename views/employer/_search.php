@@ -1,37 +1,61 @@
 <?php
 
+use kartik\daterange\DateRangePicker;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yiister\gentelella\widgets\Panel;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\EmployerSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="employer-search">
+<?php Panel::begin([
+    'header' => Yii::t('app', 'Filters'),
+]) ?>
 
-    <?php $form = ActiveForm::begin([
-        'action' => ['index'],
-        'method' => 'get',
-    ]); ?>
+<?php $form = ActiveForm::begin([
+    'action' => ['index'],
+    'method' => 'get',
+]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <?= $form->field($model, 'id')->textInput(['type' => 'number']) ?>
 
-    <?= $form->field($model, 'title') ?>
+    <?= $form->field($model, 'search_text')->textInput() ?>
 
-    <?= $form->field($model, 'description') ?>
+    <?= $form->field($model, 'search_fields')->checkboxList([
+        'title' => $model->getAttributeLabel('title'),
+        'description' => $model->getAttributeLabel('description'),
+        'site_url' => $model->getAttributeLabel('site_url'),
+    ]) ?>
 
-    <?= $form->field($model, 'site_url') ?>
+    <?= $form->field($model, 'created_at_range')->widget(DateRangePicker::className(), [
+        'options' => [
+            'class' => 'form-control',
+            'onchange' => 'this.form.submit()',
+        ],
+        'pluginOptions' => [
+            'drops' => 'up',
+            'locale' => ['format' => 'YYYY-MM-DD'],
+        ],
+    ]) ?>
 
-    <?= $form->field($model, 'created_at') ?>
-
-    <?php // echo $form->field($model, 'updated_at') ?>
+    <?= $form->field($model, 'updated_at_range')->widget(DateRangePicker::className(), [
+        'options' => [
+            'class' => 'form-control',
+            'onchange' => 'this.form.submit()',
+        ],
+        'pluginOptions' => [
+            'drops' => 'up',
+            'locale' => ['format' => 'YYYY-MM-DD'],
+        ],
+    ]) ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
+        <?= Html::a(Yii::t('app', 'Reset'), ['index'], ['class' => 'btn btn-default']) ?>
     </div>
 
-    <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
 
-</div>
+<?php Panel::end() ?>
