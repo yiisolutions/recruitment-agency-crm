@@ -21,7 +21,8 @@
         "vlucas/phpdotenv": "^2.4",
         "yiister/yii2-gentelella": "~1.0",
         "kartik-v/yii2-widget-select2": "^2.1",
-        "kartik-v/yii2-date-range": "*"
+        "kartik-v/yii2-date-range": "*",
+        "fzaninotto/faker": "^1.7"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

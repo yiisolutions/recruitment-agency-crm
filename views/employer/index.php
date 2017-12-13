@@ -28,7 +28,6 @@ $this->title = Yii::t('app', 'Employers');
         'columns' => [
             'id',
             'title',
-            'description:ntext',
             'site_url:url',
             'created_at:datetime',
             'updated_at:datetime',

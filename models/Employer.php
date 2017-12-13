@@ -78,4 +78,12 @@ class Employer extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Vacancy::className(), ['employer_id' => 'id']);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function __toString()
+    {
+        return $this->title;
+    }
 }

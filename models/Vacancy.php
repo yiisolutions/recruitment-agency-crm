@@ -153,4 +153,12 @@ class Vacancy extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Skill::className(), ['id' => 'skill_id'])->viaTable('{{%vacancy_skill}}', ['vacancy_id' => 'id']);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function __toString()
+    {
+        return $this->title;
+    }
 }
