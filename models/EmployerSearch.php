@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\events\SearchEvent;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -53,6 +54,36 @@ class EmployerSearch extends Employer implements SearchableInterface
     /**
      * @inheritdoc
      */
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+
+        $behaviors[] = [
+            'class' => 'app\models\behaviors\FilterSearchText',
+            'searchableFields' => [
+                self::SEARCH_FIELD_TITLE,
+                self::SEARCH_FIELD_DESCRIPTION,
+                self::SEARCH_FIELD_SITE_URL,
+            ],
+        ];
+
+        $behaviors[] = [
+            'class' => 'app\models\behaviors\FilterTimestampRange',
+            'dbAttribute' => 'created_at',
+        ];
+
+        $behaviors[] = [
+            'class' => 'app\models\behaviors\FilterTimestampRange',
+            'dbAttribute' => 'updated_at',
+        ];
+
+
+        return $behaviors;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function formName()
     {
         return '';
@@ -97,49 +128,7 @@ class EmployerSearch extends Employer implements SearchableInterface
             'id' => $this->id,
         ]);
 
-        if (!empty($this->created_at_range)) {
-            list($from, $to) = explode(' - ', $this->created_at_range);
-
-            if (!empty($from)) {
-                $query->andFilterWhere(['>=', 'created_at', $from . ' 00:00:00']);
-            }
-
-            if (!empty($to)) {
-                $query->andFilterWhere(['<=', 'created_at', $to . ' 23:59:59']);
-            }
-        }
-        
-        if (!empty($this->updated_at_range)) {
-            list($from, $to) = explode(' - ', $this->updated_at_range);
-
-            if (!empty($from)) {
-                $query->andFilterWhere(['>=', 'updated_at', $from . ' 00:00:00']);
-            }
-
-            if (!empty($to)) {
-                $query->andFilterWhere(['<=', 'updated_at', $to . ' 23:59:59']);
-            }
-        }
-
-        if (!empty($this->search_text)) {
-            Yii::trace('Init search text ' . $this->search_text, __CLASS__);
-
-            $or = ['or'];
-
-            if (in_array(self::SEARCH_FIELD_TITLE, $this->search_fields)) {
-                $or[] = ['like', 'title', $this->search_text];
-            }
-
-            if (in_array(self::SEARCH_FIELD_DESCRIPTION, $this->search_fields)) {
-                $or[] = ['like', 'description', $this->search_text];
-            }
-
-            if (in_array(self::SEARCH_FIELD_SITE_URL, $this->search_fields)) {
-                $or[] = ['like', 'site_url', $this->search_text];
-            }
-
-            $query->andFilterWhere($or);
-        }
+        $this->trigger(SearchableInterface::EVENT_BEFORE_SEARCH, new SearchEvent(['query' => $query]));
 
         return $dataProvider;
     }
