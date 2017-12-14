@@ -25,6 +25,9 @@ $config = [
         ],
         'db' => $db,
     ],
+    'modules' => [
+        'audit' => 'bedezign\yii2\audit\Audit',
+    ],
     'params' => $params,
     'controllerMap' => [
         'migrate-rbac' => [

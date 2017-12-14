@@ -22,7 +22,8 @@
         "yiister/yii2-gentelella": "~1.0",
         "kartik-v/yii2-widget-select2": "^2.1",
         "kartik-v/yii2-date-range": "*",
-        "fzaninotto/faker": "^1.7"
+        "fzaninotto/faker": "^1.7",
+        "bedezign/yii2-audit": "^1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

@@ -77,6 +77,9 @@ $config = [
             ],
         ],
     ],
+    'modules' => [
+        'audit' => 'bedezign\yii2\audit\Audit',
+    ],
     'params' => $params,
 ];
 

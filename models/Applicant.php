@@ -61,6 +61,9 @@ class Applicant extends \yii\db\ActiveRecord
                 'class' => TimestampBehavior::className(),
                 'value' => new Expression('NOW()'),
             ],
+            [
+                'class' => 'bedezign\yii2\audit\AuditTrailBehavior',
+            ],
         ];
     }
 

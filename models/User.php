@@ -7,6 +7,7 @@ use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\db\Expression;
 use yii\rbac\DbManager;
 use yii\web\IdentityInterface;
 
@@ -86,6 +87,10 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return [
             [
                 'class' => TimestampBehavior::className(),
+                'value' => new Expression('now()'),
+            ],
+            [
+                'class' => 'bedezign\yii2\audit\AuditTrailBehavior',
             ],
         ];
     }
