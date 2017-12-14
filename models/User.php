@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use bedezign\yii2\audit\AuditTrailBehavior;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
@@ -87,10 +88,10 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return [
             [
                 'class' => TimestampBehavior::className(),
-                'value' => new Expression('now()'),
+                'value' => new Expression('NOW()'),
             ],
             [
-                'class' => 'bedezign\yii2\audit\AuditTrailBehavior',
+                'class' => AuditTrailBehavior::className(),
             ],
         ];
     }

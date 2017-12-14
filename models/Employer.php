@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use bedezign\yii2\audit\AuditTrailBehavior;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
@@ -54,7 +55,7 @@ class Employer extends \yii\db\ActiveRecord
                 'value' => new Expression('NOW()'),
             ],
             [
-                'class' => 'bedezign\yii2\audit\AuditTrailBehavior',
+                'class' => AuditTrailBehavior::className(),
             ],
         ];
     }

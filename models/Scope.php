@@ -2,7 +2,10 @@
 
 namespace app\models;
 
+use bedezign\yii2\audit\AuditTrailBehavior;
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "{{%scope}}".
@@ -42,6 +45,22 @@ class Scope extends \yii\db\ActiveRecord
             [['parent_id', 'created_at', 'updated_at'], 'integer'],
             [['title'], 'string', 'max' => 255],
             [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => Scope::className(), 'targetAttribute' => ['parent_id' => 'id']],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'value' => new Expression('NOW()'),
+            ],
+            [
+                'class' => AuditTrailBehavior::className(),
+            ],
         ];
     }
 
