@@ -9,6 +9,8 @@ use Yii;
  *
  * @property integer $resume_id
  * @property integer $scope_id
+ * @property string $created_at
+ * @property string $updated_at
  *
  * @property Resume $resume
  * @property Scope $scope

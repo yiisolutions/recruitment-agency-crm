@@ -87,10 +87,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             [
-                'class' => TimestampBehavior::className(),
-                'value' => new Expression('NOW()'),
-            ],
-            [
                 'class' => AuditTrailBehavior::className(),
             ],
         ];

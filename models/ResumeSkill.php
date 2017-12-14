@@ -9,6 +9,8 @@ use Yii;
  *
  * @property integer $resume_id
  * @property integer $skill_id
+ * @property string $created_at
+ * @property string $updated_at
  *
  * @property Resume $resume
  * @property Skill $skill

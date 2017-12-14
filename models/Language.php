@@ -48,10 +48,6 @@ class Language extends \yii\db\ActiveRecord
     {
         return [
             [
-                'class' => TimestampBehavior::className(),
-                'value' => new Expression('NOW()'),
-            ],
-            [
                 'class' => AuditTrailBehavior::className(),
             ],
         ];
