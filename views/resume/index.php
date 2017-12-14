@@ -21,7 +21,6 @@ echo GridViewPanel::widget([
     'columns' => [
         'id',
         'title',
-        'description:ntext',
         'salary_from',
         'salary_to',
         'salary_amount',

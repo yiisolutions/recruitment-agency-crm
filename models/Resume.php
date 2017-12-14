@@ -151,4 +151,12 @@ class Resume extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Skill::className(), ['id' => 'skill_id'])->viaTable('{{%resume_skill}}', ['resume_id' => 'id']);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function __toString()
+    {
+        return $this->title;
+    }
 }

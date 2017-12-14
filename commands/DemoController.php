@@ -8,6 +8,7 @@ use app\models\Currency;
 use app\models\Employer;
 use app\models\Language;
 use app\models\Location;
+use app\models\Resume;
 use app\models\User;
 use app\models\Vacancy;
 use Faker\Factory;
@@ -70,6 +71,47 @@ class DemoController extends Controller
     }
 
     /**
+     * Generate random resumes.
+     *
+     * @param int $count
+     */
+    public function actionResume($count = 100)
+    {
+        for ($i = 0; $i < $count; $i++) {
+            /** @var Language $language */
+            $language = $this->getRandom(Language::className());
+            $faker = $this->getFaker($language->code);
+            
+            $resume = new Resume();
+            $resume->title = $faker->text(mt_rand(5, 32));
+            $resume->description = $faker->realText(mt_rand(5, 1024));
+            $resume->location_id = $this->getRandomId(Location::className());
+            $resume->language_id = $language->id;
+            $resume->applicant_id = $this->getRandomId(Applicant::className());
+
+            $hasSalary = $faker->boolean;
+            if ($hasSalary) {
+                $salaryAsRange = $faker->boolean;
+                if ($salaryAsRange) {
+                    if ($faker->boolean) {
+                        $resume->salary_from = $faker->randomFloat(2);
+                        $resume->salary_to = $faker->boolean ? $faker->randomFloat(2, 1000.0, 100000.0) : null;
+                    } else {
+                        $resume->salary_from = $faker->boolean ? $faker->randomFloat(2, 1000.0, 100000.0) : null;
+                        $resume->salary_to = $faker->randomFloat(2);
+                    }
+                } else {
+                    $resume->salary_amount = $faker->randomFloat(2, 1000.0, 100000.0);
+                }
+
+                $resume->salary_currency_id = $this->getRandomId(Currency::className());
+            }
+
+            $this->trySaveModel($resume);
+        }
+    }
+
+    /**
      * Generate random users.
      *
      * @param int $count
@@ -121,13 +163,13 @@ class DemoController extends Controller
                 if ($salaryAsRange) {
                     if ($faker->boolean) {
                         $vacancy->salary_from = $faker->randomFloat(2);
-                        $vacancy->salary_to = $faker->boolean ? $faker->randomFloat(2) : null;
+                        $vacancy->salary_to = $faker->boolean ? $faker->randomFloat(2, 1000.0, 100000.0) : null;
                     } else {
-                        $vacancy->salary_from = $faker->boolean ? $faker->randomFloat(2) : null;
-                        $vacancy->salary_to = $faker->randomFloat(2);
+                        $vacancy->salary_from = $faker->boolean ? $faker->randomFloat(2, 1000.0, 100000.0) : null;
+                        $vacancy->salary_to = $faker->randomFloat(2, 1000.0, 100000.0);
                     }
                 } else {
-                    $vacancy->salary_amount = $faker->randomFloat(2);
+                    $vacancy->salary_amount = $faker->randomFloat(2, 1000.0, 100000.0);
                 }
 
                 $vacancy->salary_currency_id = $this->getRandomId(Currency::className());
