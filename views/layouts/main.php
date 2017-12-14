@@ -6,13 +6,13 @@
  * @var \app\models\User $userModel
  */
 
-use app\models\Language;
+use bedezign\yii2\audit\web\JSLoggingAsset;
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\web\JsExpression;
-use yiister\gentelella\widgets\Menu;
+use yiister\gentelella\assets\Asset;
 
-$bundle = yiister\gentelella\assets\Asset::register($this);
+JSLoggingAsset::register($this);
+
+$bundle = Asset::register($this);
 $user = Yii::$app->getUser();
 $userModel = $user->getIdentity();
 

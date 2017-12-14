@@ -23,6 +23,9 @@ $config = [
                 ],
             ],
         ],
+        'errorHandler' => [
+            'class' => '\bedezign\yii2\audit\components\console\ErrorHandler',
+        ],
         'db' => $db,
     ],
     'modules' => [

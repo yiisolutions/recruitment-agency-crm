@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "{{%language}}".
@@ -47,6 +48,7 @@ class Language extends \yii\db\ActiveRecord
         return [
             [
                 'class' => TimestampBehavior::className(),
+                'value' => new Expression('now()'),
             ],
         ];
     }

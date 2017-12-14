@@ -5,9 +5,13 @@
  * @var \yii\web\View $this
  */
 
+use yiister\gentelella\assets\Asset;
+use bedezign\yii2\audit\web\JSLoggingAsset;
 use yii\helpers\Html;
 
-$bundle = yiister\gentelella\assets\Asset::register($this);
+JSLoggingAsset::register($this);
+
+$bundle = Asset::register($this);
 
 ?>
 <?php $this->beginPage(); ?>

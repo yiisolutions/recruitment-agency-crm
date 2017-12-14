@@ -22,6 +22,7 @@ class SidebarMenu extends Menu
                 'label' => Yii::t('app', 'Dashboard'),
                 'url' => ['/dashboard/index'],
                 'icon' => 'dashboard',
+                'visible' => $this->user->can('dashboard_read'),
             ],
             [
                 'label' => Yii::t('app', 'Customers'),
@@ -109,6 +110,12 @@ class SidebarMenu extends Menu
                         'icon' => 'square-o',
                         'visible' => $this->user->can('user_read'),
                     ],
+                    [
+                        'label' => Yii::t('app', 'Audit'),
+                        'url' => ['/audit/default/index'],
+                        'icon' => 'square-o',
+                        'visible' => $this->user->can('audit_read'),
+                    ]
                 ],
             ],
             [

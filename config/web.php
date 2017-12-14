@@ -38,6 +38,7 @@ $config = [
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
+            'class' => '\bedezign\yii2\audit\components\web\ErrorHandler',
             'errorAction' => 'site/error',
         ],
         'mailer' => [
