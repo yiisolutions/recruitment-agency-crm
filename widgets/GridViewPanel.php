@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\base\Widget;
 use yii\data\DataProviderInterface;
+use yii\helpers\Html;
 use yii\web\User;
 use yiister\gentelella\widgets\grid\GridView;
 use yiister\gentelella\widgets\Panel;
@@ -98,6 +99,7 @@ class GridViewPanel extends Widget
             ]);
         }
 
+        echo Html::beginTag('div', ['class' => 'table-responsive']);
         echo GridView::widget([
             'bordered' => false,
             'hover' => true,
@@ -105,6 +107,7 @@ class GridViewPanel extends Widget
             'filterModel' => $this->filterModel,
             'columns' => $columns,
         ]);
+        echo Html::endTag('div');
 
         Panel::end();
     }
