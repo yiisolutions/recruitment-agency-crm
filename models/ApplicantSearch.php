@@ -67,7 +67,7 @@ class ApplicantSearch extends Applicant implements SearchableInterface
                 self::SEARCH_FIELD_FIRST_NAME,
                 self::SEARCH_FIELD_LAST_NAME,
                 self::SEARCH_FIELD_EMAIL,
-                self::SEARCH_FIELD_EMAIL,
+                self::SEARCH_FIELD_PHONE,
             ],
         ];
 
